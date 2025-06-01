@@ -13,14 +13,13 @@ public class linkedlist {
     public static int size;
 
     public void addFirst(int data){
-        Node newNode=new Node(data);
-        size++;
+        Node newNode= new Node(data);
         if(head==null){
             head=tail=newNode;
             return;
         }
         newNode.next=head;
-        head=newNode;
+        head= newNode;
     }
     public void addLast(int data){
         Node newNode=new Node(data);
@@ -34,18 +33,17 @@ public class linkedlist {
     }
     public void print(){
         if(head==null){
-            System.out.print("LL is empty");
+            System.out.println("LL is empty");
         }
         Node temp=head;
         while(temp!=null){
-           System.out.print(temp.data +"->");
-           temp = temp.next;
+            System.out.println(temp.data +" ");
+            temp=temp.next;
         }
-        System.out.print("null");
+        System.out.println("null");
     }
     public void add(int idx,int data){
-        Node newNode =new Node(data);
-        size++;
+        Node newNode=new Node(data);
         Node temp=head;
         int i=0;
         while(i<idx-1){
@@ -54,40 +52,41 @@ public class linkedlist {
         }
         newNode.next=temp.next;
         temp.next=newNode;
+
     }
     public int removeFirst(){
         if(size==0){
             System.out.println("LL is empty");
             return Integer.MIN_VALUE;
-        }else if(size==1){
+
+        }
+        else if(size==1){
             int val=head.data;
             head=tail=null;
-            size=0;
             return val;
+
         }
         int val=head.data;
         head=head.next;
-        size--;
         return val;
     }
     public int removeLast(){
         if(size==0){
             System.out.println("LL is empty");
             return Integer.MIN_VALUE;
-        }else if(size==1){
+        }
+        else if(size==1){
             int val=head.data;
             head=tail=null;
-            size=0;
             return val;
         }
-        Node prev=head;
+        Node prev= head;
         for(int i=0;i<size-2;i++){
             prev=prev.next;
         }
-        int val=prev.next.data;
+        int val=tail.data;
         prev.next=null;
         tail=prev;
-        size--;
         return val;
     }
     public int itrSearch(int key){
@@ -100,7 +99,6 @@ public class linkedlist {
             temp=temp.next;
             i++;
         }
-        // key not found
         return -1;
     }
     public int helper(Node head, int key){
@@ -110,7 +108,7 @@ public class linkedlist {
         if(head.data==key){
             return 0;
         }
-        int idx=helper(head.next, key);
+        int idx=helper(head.next,key);
         if(idx==-1){
             return -1;
         }
@@ -156,12 +154,11 @@ public class linkedlist {
         return;
     }
     public Node findMidNode(Node head){
-        Node slow= head;
-        Node fast= head;
-
+        Node slow=head;
+        Node fast=head;
         while(fast!=null && fast.next!=null){
-            slow= slow.next; //+1
-            fast=fast.next.next; //+2
+            slow=slow.next;
+            fast=fast.next.next;
         }
         return slow;
     }
@@ -193,14 +190,26 @@ public class linkedlist {
             right=right.next;
         }
         return true;
+    }
+    public static boolean isCycle(){
+        Node slow=head;
+        Node fast=head;
 
+        while(fast!=null && fast.next!=null){
+            slow=slow.next;
+            fast=fast.next.next;
+            if(slow==fast){
+                return true; //cycle exists
+            }
+        }
+        return false; //cycle does not exist
     }
     public static void main(String[] args) {
         linkedlist ll =new linkedlist();
-        ll.addLast(1);
-        ll.addLast(2);
-        ll.addLast(2);
-        ll.addLast(1);
+        // ll.addLast(1);
+        // ll.addLast(2);
+        // ll.addLast(2);
+        // ll.addLast(1);
 
         // ll.removeFirst();
         // ll.print();
@@ -214,9 +223,14 @@ public class linkedlist {
         // System.out.println(ll.recSearch(2));
         // System.out.println(ll.recSearch(10));
         // ll.deleteNthnodeFromEnd(3);
-        ll.print();
-        System.out.println();
-        System.out.println(ll.checkPalindrome());
+        // ll.print();
+        // System.out.println();
+        // System.out.println(ll.checkPalindrome());
+        head=new Node(1);
+        head.next=new Node(2);
+        head.next.next=new Node(3);
+        head.next.next.next=head;
+        System.out.println(isCycle());
         
         
         
