@@ -105,16 +105,29 @@ public class build_a_bst {
         printPath(root.right, path);
         path.remove(path.size()-1);
     }
+    public static boolean isBST(Node root, Node min, Node max){
+        if(root==null){
+            return true;
+        }
+        if(min!=null && root.data<=min.data){
+            return false;
+        }else if(max!=null && root.data>=max.data){
+            return false;
+        }
+        return isBST(root.left,min,root) && isBST(root.right,root, max);
+    }
+
+
     public static void main(String[] args) {
-        int values[]={8,5,3,6,10,11,14};
+        int values[]={8,5,10,3,6,11};
         Node root=null;
 
         for(int i=0;i<values.length;i++){
             root=insert(root,values[i]);
         }
 
-        inorder(root);
-        System.out.println();
+        // inorder(root);
+        // System.out.println();
 
         // if(search(root, 5)){
         //     System.out.println("Found");
@@ -130,7 +143,12 @@ public class build_a_bst {
         // printInRange(root, 5, 12);
         // System.out.println();
 
-        printPath(root,new ArrayList<>());
+        // printPath(root,new ArrayList<>());
+        // if(isBST(root,null,null)){
+        //     System.out.println("valid");
+        // }else{
+        //     System.out.println("not valid");
+        // }
 
 
 
