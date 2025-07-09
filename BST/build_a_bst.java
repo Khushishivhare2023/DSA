@@ -1,3 +1,4 @@
+import java.util.*;
 public class build_a_bst {
     static class Node{
         int data;
@@ -41,10 +42,71 @@ public class build_a_bst {
             return search(root.right, key);
         }
     }
-
-
+    public static Node delete(Node root, int val){
+        if(root.data<val){
+            root.right=delete(root.right, val);
+        }else if(root.data>val){
+            root.left=delete(root.left, val);
+        }else{
+            //case1- no child
+            if(root.left==null && root.right==null){
+                return null;
+            }
+            //case2- one child
+            if(root.left==null){
+                return root.right;
+            }else if(root.right==null){
+                return root.left;
+            }
+            //case3- two children
+            Node IS=findInorderSucc(root.right);
+            root.data=IS.data;
+            root.right=delete(root.right,IS.data);
+        }
+        return root;
+    }
+    public static Node findInorderSucc(Node root){
+        while(root.left!=null){
+            root=root.left;
+        }
+        return root;
+    }
+    public static void printInRange(Node root, int k1, int k2){
+        if(root==null){
+            return;
+        }
+        if(root.data>=k1 && root.data<=k2){
+            printInRange(root.left, k1, k2);
+            System.out.println(root.data+" ");
+            printInRange(root.right, k1, k2);
+        }
+        else if(root.data<k1){
+            printInRange(root.right, k1, k2);
+        }
+        else{
+            printInRange(root.left, k1, k2);
+        }
+    }
+    public static void print(ArrayList<Integer>path){
+        for(int i=0;i<path.size();i++){
+            System.out.print(path.get(i)+"->");
+        }
+        System.out.println("Null");
+    }
+    public static void printPath(Node root, ArrayList<Integer>path){
+        if(root==null){
+            return;
+        }
+        path.add(root.data);
+        if(root.left==null && root.right==null){
+            print(path);
+        }
+        printPath(root.left, path);
+        printPath(root.right, path);
+        path.remove(path.size()-1);
+    }
     public static void main(String[] args) {
-        int values[]={5,1,3,4,2,7};
+        int values[]={8,5,3,6,10,11,14};
         Node root=null;
 
         for(int i=0;i<values.length;i++){
@@ -54,11 +116,21 @@ public class build_a_bst {
         inorder(root);
         System.out.println();
 
-        if(search(root, 5)){
-            System.out.println("Found");
-        }else{
-            System.out.println("Not Found");
-        }
+        // if(search(root, 5)){
+        //     System.out.println("Found");
+        // }else{
+        //     System.out.println("Not Found");
+        // }
+
+        // root=delete(root, 10);
+        // System.out.println();
+
+        // inorder(root);
+
+        // printInRange(root, 5, 12);
+        // System.out.println();
+
+        printPath(root,new ArrayList<>());
 
 
 
